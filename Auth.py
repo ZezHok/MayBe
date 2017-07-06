@@ -18,14 +18,18 @@ spreadsheet = 'https://docs.google.com/spreadsheets/d/1KLCHgvUbsRyBbmd8f5jR4Zv3q
 spreadsheet_id = '1KLCHgvUbsRyBbmd8f5jR4Zv3qrRaSTymKiBLhvLGDY0'
 
 skin_list = test_skin_list()
-for i in range(len(skin_list)):
-    results = service.spreadsheets().values().batchUpdate(spreadsheetId=spreadsheet_id, body={
-        "valueInputOption": "USER_ENTERED",
-        "data": [
-            {"range": "Num!A%s" % str(i+1),
-             "majorDimension": "COLUMNS",
-             "values": [[skin_list[i]]]},
-        ]
-    }).execute()
+for n in range(len(skin_list)):
+    for i in range(len(skin_list[n])):
+        results = service.spreadsheets().values().batchUpdate(spreadsheetId=spreadsheet_id, body={
+            "valueInputOption": "USER_ENTERED",
+            "data": [
+                {"range": "Num!A%s" % str(i+1),
+                 "majorDimension": "COLUMNS",
+                 "values": [[skin_list[n][i]]]},
+                {"range": "Num!B2",
+                 "majorDimension": "COLUMNS",
+                 "values": [[skin_list[n][i]]]},
+            ]
+        }).execute()
 
 print(results)
